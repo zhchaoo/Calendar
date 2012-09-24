@@ -26,7 +26,7 @@ enum {
 typedef int startDay;
 
 @property (nonatomic, strong) NSDate *selectedDate;
-@property (nonatomic, weak) id<CKCalendarDelegate> delegate;
+@property (nonatomic, retain) id<CKCalendarDelegate> delegate;
 
 - (id)initWithStartDay:(startDay)firstDay;
 - (id)initWithStartDay:(startDay)firstDay frame:(CGRect)frame;
