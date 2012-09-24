@@ -11,7 +11,7 @@
     self = [super init];
     if (self) {
         CKCalendarView *calendar = [[CKCalendarView alloc] initWithStartDay:startMonday];
-        calendar.frame = CGRectMake(10, 10, 300, 470);
+//        calendar.frame = CGRectMake(10, 10, 300, 470);
         [self.view addSubview:calendar];
 
         self.view.backgroundColor = [UIColor grayColor];

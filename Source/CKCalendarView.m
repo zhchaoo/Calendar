@@ -21,10 +21,10 @@
 #import "CKCalendarView.h"
 
 #define BUTTON_MARGIN 4
-#define CALENDAR_MARGIN 5
+#define CALENDAR_MARGIN 2
 #define TOP_HEIGHT 44
 #define DAYS_HEADER_HEIGHT 22
-#define DEFAULT_CELL_WIDTH 43
+#define DEFAULT_CELL_WIDTH 44
 #define CELL_BORDER_WIDTH 1
 
 #define UIColorFromRGB(rgbValue) [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
@@ -151,7 +151,7 @@
         [self.calendar setFirstWeekday:self.calendarStartDay];
         self.cellWidth = DEFAULT_CELL_WIDTH;
         
-        self.layer.cornerRadius = 6.0f;
+//        self.layer.cornerRadius = 6.0f;
         self.layer.shadowOffset = CGSizeMake(2, 2);
         self.layer.shadowRadius = 2.0f;
         self.layer.shadowOpacity = 0.4f;
@@ -296,7 +296,7 @@
     _monthShowing = aMonthShowing;
 
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    dateFormatter.dateFormat = @"MMMM YYYY";
+    dateFormatter.dateFormat = @"MM月 YYYY年";
     self.titleLabel.text = [dateFormatter stringFromDate:aMonthShowing];
     [self setNeedsLayout];
 }
