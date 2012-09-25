@@ -1,5 +1,6 @@
 #import "CKViewController.h"
 #import "CKCalendarView.h"
+#import "CalendarHandler.h"
 
 @interface CKViewController ()
 
@@ -12,6 +13,9 @@
     if (self) {
         CKCalendarView *calendar = [[CKCalendarView alloc] initWithStartDay:startMonday];
 //        calendar.frame = CGRectMake(10, 10, 300, 470);
+        CalendarHandler* calendarHandler = [[CalendarHandler alloc] init];
+        [calendar setDelegate:calendarHandler];
+        
         [self.view addSubview:calendar];
 
         self.view.backgroundColor = [UIColor grayColor];

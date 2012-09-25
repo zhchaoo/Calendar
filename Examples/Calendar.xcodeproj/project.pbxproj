@@ -21,6 +21,7 @@
 		1D2391395A8710F3E85A8C /* right_arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 1D2391395A8710F3E85A8B /* right_arrow.png */; };
 		1D2391395A8710F3E85A8E /* right_arrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1D2391395A8710F3E85A8D /* right_arrow@2x.png */; };
 		95979E831610847100C256BF /* LunarCalendar.m in Sources */ = {isa = PBXBuildFile; fileRef = 95979E821610847100C256BF /* LunarCalendar.m */; };
+		95979E9316108A2F00C256BF /* CalendarHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 95979E9216108A2F00C256BF /* CalendarHandler.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -45,6 +46,8 @@
 		1D2391395A8710F3E85A8D /* right_arrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "right_arrow@2x.png"; path = "../../Source/resources/right_arrow@2x.png"; sourceTree = "<group>"; };
 		95979E811610847100C256BF /* LunarCalendar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LunarCalendar.h; path = ../../Source/LunarCalendar.h; sourceTree = "<group>"; };
 		95979E821610847100C256BF /* LunarCalendar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LunarCalendar.m; path = ../../Source/LunarCalendar.m; sourceTree = "<group>"; };
+		95979E9116108A2F00C256BF /* CalendarHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CalendarHandler.h; path = ../../Source/CalendarHandler.h; sourceTree = "<group>"; };
+		95979E9216108A2F00C256BF /* CalendarHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CalendarHandler.m; path = ../../Source/CalendarHandler.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,6 +104,8 @@
 				1D2391395A8710F3E85A66 /* CKViewController.h */,
 				1D2391395A8710F3E85A64 /* CKAppDelegate.m */,
 				1D2391395A8710F3E85A63 /* CKAppDelegate.h */,
+				95979E9116108A2F00C256BF /* CalendarHandler.h */,
+				95979E9216108A2F00C256BF /* CalendarHandler.m */,
 				1D2391395A8710F3E85A5B /* Supporting Files */,
 				1D2391395A8710F3E85A86 /* resources */,
 			);
@@ -196,6 +201,7 @@
 				1D2391395A8710F3E85A68 /* CKViewController.m in Sources */,
 				1D2391395A8710F3E85A85 /* CKCalendarView.m in Sources */,
 				95979E831610847100C256BF /* LunarCalendar.m in Sources */,
+				95979E9316108A2F00C256BF /* CalendarHandler.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -221,7 +227,7 @@
 				CLANG_ENABLE_OBJC_ARC = NO;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
-				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
@@ -243,7 +249,7 @@
 				CLANG_ENABLE_OBJC_ARC = NO;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -268,6 +274,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Calendar/Calendar-Prefix.pch";
 				INFOPLIST_FILE = "Calendar/Calendar-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -279,6 +286,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Calendar/Calendar-Prefix.pch";
 				INFOPLIST_FILE = "Calendar/Calendar-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
