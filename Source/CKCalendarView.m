@@ -216,6 +216,9 @@
 
         // at most we'll need 42 buttons, so let's just bite the bullet and make them now...
         NSMutableArray *dateButtons = [NSMutableArray array];
+        
+#pragma unused(dateButtons)
+        
         dateButtons = [NSMutableArray array];
         for (int i = 0; i < 43; i++) {
             DateButton *dateButton = [DateButton buttonWithType:UIButtonTypeCustom];
@@ -224,6 +227,7 @@
             [dateButtons addObject:dateButton];
         }
         self.dateButtons = dateButtons;
+        
 
         // initialize the thing
         self.monthShowing = [NSDate date];

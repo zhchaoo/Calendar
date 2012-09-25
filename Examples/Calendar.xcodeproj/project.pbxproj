@@ -271,6 +271,7 @@
 		1D2391395A8710F3E85A4E /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Calendar/Calendar-Prefix.pch";
 				INFOPLIST_FILE = "Calendar/Calendar-Info.plist";
@@ -283,6 +284,7 @@
 		1D2391395A8710F3E85A4F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Calendar/Calendar-Prefix.pch";
 				INFOPLIST_FILE = "Calendar/Calendar-Info.plist";
