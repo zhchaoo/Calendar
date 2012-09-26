@@ -33,6 +33,8 @@ int LunarCalendarInfo[] = { 0x04bd8,0x04ae0,0x0a570,0x054d5,0x0d260,0x0d950,0x16
 
 @implementation LunarCalendar
 
+@synthesize dayType;
+
 -(id)init
 {
     HeavenlyStems = [NSArray arrayWithObjects:@"1H",@"2H",@"3H",@"4H",@"5H",@"6H",@"7H",@"8H",@"9H",@"10H",nil];
@@ -85,9 +87,19 @@ int LunarCalendarInfo[] = { 0x04bd8,0x04ae0,0x0a570,0x054d5,0x0d260,0x0d950,0x16
         [dateFormatter setDateFormat:@"dd"];
         day = [[dateFormatter stringFromDate:adate] intValue];
         
+        dateFormatter.dateFormat = @"e";
+        week = [[dateFormatter stringFromDate:adate] intValue];
+        
+        dayType = 0;
+        if (week == 7 || week == 1)
+            dayType |= WEEKEND;
+        
         //[dateFormatter release];
                 
         thisdate = adate;
+        
+        
+        
     }
 }
 
@@ -188,8 +200,10 @@ int LunarCalendarInfo[] = { 0x04bd8,0x04ae0,0x0a570,0x054d5,0x0d260,0x0d950,0x16
         
         [currentFormatter setDateFormat:@"yyyyMMdd"];
         
-        if (((SolarTerm*)[solarTerm objectAtIndex:i]).solarDate == [[currentFormatter stringFromDate:thisdate] intValue])
+        if (((SolarTerm*)[solarTerm objectAtIndex:i]).solarDate == [[currentFormatter stringFromDate:thisdate] intValue]) {
+            dayType |= SOLARTERM;
             solarTermTitle = ((SolarTerm*)[solarTerm objectAtIndex:i]).solarName;
+        }
         
         //[currentFormatter release];
     }

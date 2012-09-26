@@ -8,7 +8,16 @@
 
 #import <Foundation/Foundation.h>
 
+enum {
+    NORMAL                  = 0,
+    WEEKEND                 = 1 << 0,
+    SOLARTERM               = 1 << 1,
+    FESTIVAL                = 1 << 2,
+};
+
 @protocol LunarDataSource <NSObject>
+
+@property unsigned dayType;
 
 -(void)initWithDate:(NSDate*)date;
 -(NSString *)MonthLunar;

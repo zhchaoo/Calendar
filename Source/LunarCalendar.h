@@ -17,6 +17,7 @@
     int year;
     int month;
     int day;
+    int week;
     
     int lunarYear;       //农历年
     int lunarMonth;      //农历月
@@ -37,7 +38,7 @@
     
     NSString *zodiacLunar;
     
-    NSString *solarTermTitle; 
+    NSString *solarTermTitle;
 }
 
 -(void)loadWithDate:(NSDate *)date;

@@ -299,8 +299,14 @@
             textColor = [self dateTextColor];
             dateButton.backgroundColor = [self dateBackgroundColor];
         }
+       
+        // set lunar text.
+        if (self.dataSource.dayType & SOLARTERM)
+            dateButton.label.text = NSLocalizedString([self.dataSource SolarTermTitle], nil);
+        else
+            dateButton.label.text = NSLocalizedString([self.dataSource DayLunar],nil);
+        
         // set Button & label style
-        dateButton.label.text = NSLocalizedString([self.dataSource DayLunar],nil);
         dateButton.label.textColor = textColor;
         [dateButton setTitleColor:textColor forState:UIControlStateNormal];
 
@@ -432,7 +438,16 @@
     }
 }
 - (UIColor *)dateTextColor {
-    return (self.dateButtons.count > 0) ? [((DateButton *)[self.dateButtons lastObject]) titleColorForState:UIControlStateNormal] : nil;
+    if (self.dateButtons.count > 0) {
+        if (self.dataSource.dayType & SOLARTERM)
+            return [UIColor greenColor];
+        else if (self.dataSource.dayType & WEEKEND) 
+            return [UIColor redColor];
+        else
+            return [((DateButton *)[self.dateButtons lastObject]) titleColorForState:UIControlStateNormal];
+    } else {
+        return nil;
+    }
 }
 
 - (void)setDateBackgroundColor:(UIColor *)color {
