@@ -17,6 +17,20 @@ int LunarCalendarInfo[] = { 0x04bd8,0x04ae0,0x0a570,0x054d5,0x0d260,0x0d950,0x16
     0x0b5a0,0x056d0,0x055b2,0x049b0,0x0a577,0x0a4b0,0x0aa50,0x1b255,0x06d20,0x0ada0,
     0x14b63};
 
+@interface SolarTerm : NSObject
+
+@property (nonatomic, assign)int solarDate;
+@property (nonatomic, strong)NSString* solarName;
+
+@end
+
+@implementation SolarTerm
+
+@synthesize solarDate;
+@synthesize solarName;
+
+@end
+
 @implementation LunarCalendar
 
 -(id)init
@@ -30,6 +44,8 @@ int LunarCalendarInfo[] = { 0x04bd8,0x04ae0,0x0a570,0x054d5,0x0d260,0x0d950,0x16
     arrayMonth = [NSArray arrayWithObjects:@"JAN", @"FEB", @"MAR", @"APR", @"MAY", @"JUN", @"JUL", @"AUG", @"SEP",  @"OCT", @"NOV", @"DEC", nil];
     
     arrayDay = [NSArray arrayWithObjects:@"1st", @"2nd", @"3rd", @"4th", @"5th", @"6th", @"7th", @"8th", @"9th", @"10th", @"11th", @"12th", @"13th", @"14th", @"15th", @"16th", @"17th", @"18th", @"19th", @"20th", @"21st", @"22nd", @"23rd", @"24th", @"25th", @"26th", @"27th", @"28th", @"29th", @"30th", @"31st", nil];
+    
+    solarTerm = [NSArray arrayWithObjects:[[SolarTerm alloc] init], [[SolarTerm alloc] init], nil];
     
     return self;
 }
@@ -172,8 +188,8 @@ int LunarCalendarInfo[] = { 0x04bd8,0x04ae0,0x0a570,0x054d5,0x0d260,0x0d950,0x16
         
         [currentFormatter setDateFormat:@"yyyyMMdd"];
         
-//        if (solarTerm[i].solarDate == [[currentFormatter stringFromDate:thisdate] intValue])
-//            solarTermTitle = solarTerm[i].solarName;
+        if (((SolarTerm*)[solarTerm objectAtIndex:i]).solarDate == [[currentFormatter stringFromDate:thisdate] intValue])
+            solarTermTitle = ((SolarTerm*)[solarTerm objectAtIndex:i]).solarName;
         
         //[currentFormatter release];
     }
@@ -241,10 +257,10 @@ int LunarCalendarInfo[] = { 0x04bd8,0x04ae0,0x0a570,0x054d5,0x0d260,0x0d950,0x16
         int tMonth = (int)ceil((double)n / 2);
         int tday = (int)mdays % 100;
         
-//        if (n >= 3)
-//            solarTerm[n - month * 2 + 1].solarName = [SolarTerms objectAtIndex:(n - 3)];
-//        else
-//            solarTerm[n - month * 2 + 1].solarName = [SolarTerms objectAtIndex:(n + 21)];
+        if (n >= 3)
+            ((SolarTerm*)[solarTerm objectAtIndex:(n - month * 2 + 1)]).solarName = [SolarTerms objectAtIndex:(n - 3)];
+        else
+((SolarTerm*)[solarTerm objectAtIndex:(n - month * 2 + 1)]).solarName = [SolarTerms objectAtIndex:(n + 3)];
         
         NSDateComponents *components = [[NSDateComponents alloc] init];
         [components setYear:year];
@@ -262,8 +278,8 @@ int LunarCalendarInfo[] = { 0x04bd8,0x04ae0,0x0a570,0x054d5,0x0d260,0x0d950,0x16
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
         
         [dateFormatter setDateFormat:@"yyyyMMdd"];
-                
-        solarTerm[n - month * 2 + 1].solarDate = [[dateFormatter stringFromDate:ldate] intValue];
+        
+        ((SolarTerm*)[solarTerm objectAtIndex:(n - month * 2 + 1)]).solarDate = [[dateFormatter stringFromDate:ldate] intValue];
         //[dateFormatter release];
     }
 }

@@ -3,18 +3,14 @@
 
 @interface LunarCalendar : NSObject <LunarDataSource>
 {
-    struct SolarTerm
-    {
-        //NSString *solarName;
-        int solarDate;
-    };
-    
     NSArray *HeavenlyStems;
     NSArray *EarthlyBranches;
     NSArray *LunarZodiac;
     NSArray *SolarTerms;
     NSArray *arrayMonth;
     NSArray *arrayDay;
+    
+    NSArray *solarTerm;  //节气
 
     NSDate *thisdate;
     
@@ -27,8 +23,6 @@
     int doubleMonth;     //闰月
     bool isLeap;         //是否闰月标记
     int lunarDay;        //农历日
-    
-    struct SolarTerm solarTerm[2];
     
     NSString *yearHeavenlyStem;
     NSString *monthHeavenlyStem;

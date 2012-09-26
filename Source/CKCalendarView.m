@@ -68,12 +68,14 @@
 @interface DateButton : UIButton
 
 @property (nonatomic, strong) NSDate *date;
+@property (nonatomic, retain) UILabel* label;
 
 @end
 
 @implementation DateButton
 
 @synthesize date = _date;
+@synthesize label = _label;
 
 - (void)setDate:(NSDate *)aDate {
     _date = aDate;
@@ -226,6 +228,13 @@
             [dateButton setTitle:[NSString stringWithFormat:@"%d", i] forState:UIControlStateNormal];
             [dateButton addTarget:self action:@selector(dateButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
             [dateButtons addObject:dateButton];
+            // set date label.
+            UILabel *dateLabel = [[UILabel alloc] initWithFrame:CGRectMake(0,30,10,10)];
+            dateLabel.textAlignment = UITextAlignmentCenter;
+            dateLabel.backgroundColor = [UIColor clearColor];
+            dateLabel.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+            [dateButton addSubview:dateLabel];
+            dateButton.label = dateLabel;
         }
         self.dateButtons = dateButtons;
         
@@ -276,22 +285,31 @@
     while ([self dateIsInMonthShowing:date]) {
         DateButton *dateButton = [self.dateButtons objectAtIndex:dateButtonPosition];
 
+        // set Button for date;
+        UIColor* textColor = [UIColor blackColor];
+        [self.dataSource initWithDate:date];
         dateButton.date = date;
         if ([dateButton.date isEqualToDate:self.selectedDate]) {
+            textColor = self.selectedDateTextColor;
             dateButton.backgroundColor = self.selectedDateBackgroundColor;
-            [dateButton setTitleColor:self.selectedDateTextColor forState:UIControlStateNormal];
         } else if ([self dateIsToday:dateButton.date]) {
-            [dateButton setTitleColor:self.currentDateTextColor forState:UIControlStateNormal];
+            textColor = self.currentDateTextColor;
             dateButton.backgroundColor = self.currentDateBackgroundColor;
         } else {
+            textColor = [self dateTextColor];
             dateButton.backgroundColor = [self dateBackgroundColor];
-            [dateButton setTitleColor:[self dateTextColor] forState:UIControlStateNormal];
         }
+        // set Button & label style
+        dateButton.label.text = NSLocalizedString([self.dataSource DayLunar],nil);
+        dateButton.label.textColor = textColor;
+        [dateButton setTitleColor:textColor forState:UIControlStateNormal];
 
         dateButton.frame = [self calculateDayCellFrame:date];
-
+        dateButton.contentEdgeInsets = UIEdgeInsetsMake(-10, 0, 0, 10);
+        dateButton.label.frame = CGRectMake(0, 28, 44, 16);
+        
         [self.calendarContainer addSubview:dateButton];
-
+        
         date = [self nextDay:date];
         dateButtonPosition++;
     }
