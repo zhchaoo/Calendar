@@ -26,6 +26,7 @@
 #define DAYS_HEADER_HEIGHT 22
 #define DEFAULT_CELL_WIDTH 44
 #define CELL_BORDER_WIDTH 1
+#define CELL_OVERLAP 6
 
 #define UIColorFromRGB(rgbValue) [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
 
@@ -227,14 +228,20 @@
             DateButton *dateButton = [DateButton buttonWithType:UIButtonTypeCustom];
             [dateButton setTitle:[NSString stringWithFormat:@"%d", i] forState:UIControlStateNormal];
             [dateButton addTarget:self action:@selector(dateButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
-            [dateButtons addObject:dateButton];
+            dateButton.titleLabel.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+            dateButton.titleLabel.textAlignment = UITextAlignmentCenter;
             // set date label.
-            UILabel *dateLabel = [[UILabel alloc] initWithFrame:CGRectMake(0,30,10,10)];
+            UILabel *dateLabel = [[UILabel alloc] initWithFrame:CGRectZero];
             dateLabel.textAlignment = UITextAlignmentCenter;
             dateLabel.backgroundColor = [UIColor clearColor];
             dateLabel.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+            dateLabel.font = [UIFont systemFontOfSize:[UIFont smallSystemFontSize]];
+            
             [dateButton addSubview:dateLabel];
             dateButton.label = dateLabel;
+            
+            // add dateButton to Array
+            [dateButtons addObject:dateButton];
         }
         self.dateButtons = dateButtons;
         
@@ -311,8 +318,13 @@
         [dateButton setTitleColor:textColor forState:UIControlStateNormal];
 
         dateButton.frame = [self calculateDayCellFrame:date];
-        dateButton.contentEdgeInsets = UIEdgeInsetsMake(-10, 0, 0, 10);
-        dateButton.label.frame = CGRectMake(0, 28, 44, 16);
+        
+        // calculate layout of datebutton
+        int width = self.cellWidth;
+        int height = self.cellWidth;
+        int top = height / 4;
+        dateButton.contentEdgeInsets = UIEdgeInsetsMake(0, 0, top, 0);
+        dateButton.label.frame = CGRectMake(0, height - top - CELL_OVERLAP, width, top + CELL_OVERLAP);
         
         [self.calendarContainer addSubview:dateButton];
         
@@ -355,7 +367,7 @@
 - (CGRect)calculateDayCellFrame:(NSDate *)date {
     int row = [self weekNumberInMonthForDate:date] - 1;
     int placeInWeek = (([self dayOfWeekForDate:date] - 1) - self.calendar.firstWeekday + 8) % 7;
-
+    
     return CGRectMake(placeInWeek * (self.cellWidth + CELL_BORDER_WIDTH), (row * (self.cellWidth + CELL_BORDER_WIDTH)) + CGRectGetMaxY(self.daysHeader.frame) + CELL_BORDER_WIDTH, self.cellWidth, self.cellWidth);
 }
 
