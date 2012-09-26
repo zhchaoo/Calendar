@@ -367,61 +367,6 @@ int LunarCalendarInfo[] = { 0x04bd8,0x04ae0,0x0a570,0x054d5,0x0d260,0x0d950,0x16
     return (-1);
 }
 
--(NSString *)MonthLunar
-{
-    return monthLunar;
-}
-
--(NSString *)DayLunar
-{
-    return dayLunar;
-}
-
--(NSString *)ZodiacLunar
-{
-    return zodiacLunar;
-}
-
--(NSString *)YearHeavenlyStem
-{
-    return yearHeavenlyStem;
-}
-
--(NSString *)MonthHeavenlyStem
-{
-    return monthHeavenlyStem;
-}
-
--(NSString *)DayHeavenlyStem
-{
-    return dayHeavenlyStem;
-}
-
--(NSString *)YearEarthlyBranch
-{
-    return yearEarthlyBranch;
-}
-
--(NSString *)MonthEarthlyBranch
-{
-    return monthEarthlyBranch;
-}
-
--(NSString *)DayEarthlyBranch
-{
-    return dayEarthlyBranch;
-}
-
--(NSString *)SolarTermTitle
-{
-    return solarTermTitle;
-}
-
--(bool)IsLeap
-{
-    return isLeap;
-}
-
 -(int)GregorianYear
 {
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
@@ -489,32 +434,66 @@ int LunarCalendarInfo[] = { 0x04bd8,0x04ae0,0x0a570,0x054d5,0x0d260,0x0d950,0x16
         return @"Capricorn";
 }
 
+-(bool)IsLeap
+{
+    return isLeap;
+}
+
+#pragma mark LunarDataSource Methods
+-(void)initWithDate:(NSDate *)date
+{
+    [self loadWithDate:date];
+    [self InitializeValue];
+}
+
+-(NSString *)MonthLunar
+{
+    return monthLunar;
+}
+
+-(NSString *)DayLunar
+{
+    return dayLunar;
+}
+
+-(NSString *)ZodiacLunar
+{
+    return zodiacLunar;
+}
+
+-(NSString *)YearHeavenlyStem
+{
+    return yearHeavenlyStem;
+}
+
+-(NSString *)MonthHeavenlyStem
+{
+    return monthHeavenlyStem;
+}
+
+-(NSString *)DayHeavenlyStem
+{
+    return dayHeavenlyStem;
+}
+
+-(NSString *)YearEarthlyBranch
+{
+    return yearEarthlyBranch;
+}
+
+-(NSString *)MonthEarthlyBranch
+{
+    return monthEarthlyBranch;
+}
+
+-(NSString *)DayEarthlyBranch
+{
+    return dayEarthlyBranch;
+}
+
+-(NSString *)SolarTermTitle
+{
+    return solarTermTitle;
+}
+
 @end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

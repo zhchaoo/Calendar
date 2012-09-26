@@ -14,8 +14,8 @@
 // ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
 //
-
-@protocol CKCalendarDelegate;
+#import "CKViewDelegate.h"
+#import "LunarDataSource.h"
 
 @interface CKCalendarView : UIView
 
@@ -26,7 +26,8 @@ enum {
 typedef int startDay;
 
 @property (nonatomic, strong) NSDate *selectedDate;
-@property (nonatomic, retain) id<CKCalendarDelegate> delegate;
+@property (nonatomic, retain) id<CKViewDelegate> delegate;
+@property (nonatomic, retain) id<LunarDataSource> dataSource;
 
 - (id)initWithStartDay:(startDay)firstDay;
 - (id)initWithStartDay:(startDay)firstDay frame:(CGRect)frame;
@@ -66,11 +67,5 @@ typedef int startDay;
 @property (nonatomic, strong) UIColor *selectedDateBackgroundColor;
 @property (nonatomic, strong) UIColor *currentDateTextColor;
 @property (nonatomic, strong) UIColor *currentDateBackgroundColor;
-
-@end
-
-@protocol CKCalendarDelegate <NSObject>
-
-- (void)calendar:(CKCalendarView *)calendar didSelectDate:(NSDate *)date;
 
 @end

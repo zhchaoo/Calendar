@@ -1,6 +1,5 @@
 #import "CKViewController.h"
 #import "CKCalendarView.h"
-#import "CalendarHandler.h"
 
 @interface CKViewController ()
 
@@ -13,8 +12,13 @@
     if (self) {
         CKCalendarView *calendar = [[CKCalendarView alloc] initWithStartDay:startMonday];
 //        calendar.frame = CGRectMake(10, 10, 300, 470);
-        CalendarHandler* calendarHandler = [[CalendarHandler alloc] init];
-        [calendar setDelegate:calendarHandler];
+        
+        // set CKCalendarView Delegate
+        calendar.delegate = self;
+        
+        // init model & dateSource
+        lunarModel = [[LunarCalendar alloc] init];
+        calendar.dataSource = lunarModel;
         
         [self.view addSubview:calendar];
 
@@ -42,6 +46,14 @@
     } else {
         return YES;
     }
+}
+
+#pragma mark CKViewDelegate Methods
+
+- (void)didSelectDate:(NSDate *)date
+{
+    [lunarModel initWithDate:date];
+    NSLog(@"LunarDate is %@ %@ %@ %@\n", NSLocalizedString([lunarModel YearHeavenlyStem], nil), NSLocalizedString([lunarModel MonthLunar], nil), NSLocalizedString([lunarModel DayLunar], nil), NSLocalizedString([lunarModel SolarTermTitle], nil));
 }
 
 @end

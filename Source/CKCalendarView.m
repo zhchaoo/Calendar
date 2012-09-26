@@ -120,6 +120,7 @@
 
 @synthesize selectedDate = _selectedDate;
 @synthesize delegate = _delegate;
+@synthesize dataSource = _dataSource;
 
 @synthesize selectedDateTextColor = _selectedDateTextColor;
 @synthesize selectedDateBackgroundColor = _selectedDateBackgroundColor;
@@ -204,7 +205,7 @@
         NSMutableArray *labels = [NSMutableArray array];
         for (NSString *day in [self getDaysOfTheWeek]) {
             UILabel *dayOfWeekLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-            dayOfWeekLabel.text = [day uppercaseString];
+            dayOfWeekLabel.text = NSLocalizedString([day uppercaseString],nil);
             dayOfWeekLabel.textAlignment = UITextAlignmentCenter;
             dayOfWeekLabel.backgroundColor = [UIColor clearColor];
             dayOfWeekLabel.shadowColor = [UIColor whiteColor];
@@ -347,7 +348,7 @@
 - (void)dateButtonPressed:(id)sender {
     DateButton *dateButton = sender;
     self.selectedDate = dateButton.date;
-    [self.delegate calendar:self didSelectDate:self.selectedDate];
+    [self.delegate didSelectDate:self.selectedDate];
     [self setNeedsLayout];
 }
 

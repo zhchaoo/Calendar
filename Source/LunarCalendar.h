@@ -1,6 +1,7 @@
 ﻿#import <Foundation/Foundation.h>
+#import "LunarDataSource.h"
 
-@interface LunarCalendar : NSObject
+@interface LunarCalendar : NSObject <LunarDataSource>
 {
     struct SolarTerm
     {
@@ -61,16 +62,6 @@
 -(int)DayDifference:(int)y:(int)m:(int)d;
 -(double)Tail:(double)x;
 
--(NSString *)MonthLunar;
--(NSString *)DayLunar;
--(NSString *)ZodiacLunar;
--(NSString *)YearHeavenlyStem;
--(NSString *)MonthHeavenlyStem;
--(NSString *)DayHeavenlyStem;
--(NSString *)YearEarthlyBranch;
--(NSString *)MonthEarthlyBranch;
--(NSString *)DayEarthlyBranch;
--(NSString *)SolarTermTitle;
 -(bool)IsLeap;
 -(int)GregorianYear;
 -(int)GregorianMonth;
