@@ -19,14 +19,7 @@
 #import <CoreGraphics/CoreGraphics.h>
 #import <QuartzCore/QuartzCore.h>
 #import "CKCalendarView.h"
-
-#define BUTTON_MARGIN 4
-#define CALENDAR_MARGIN 2
-#define TOP_HEIGHT 44
-#define DAYS_HEADER_HEIGHT 22
-#define DEFAULT_CELL_WIDTH 44
-#define CELL_BORDER_WIDTH 1
-#define CELL_OVERLAP 6
+#import "LayoutStyle.h"
 
 #define UIColorFromRGB(rgbValue) [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
 
@@ -294,7 +287,7 @@
 
         // set Button for date;
         UIColor* textColor = [UIColor blackColor];
-        [self.dataSource initWithDate:date];
+        [self.dataSource loadDate:date];
         dateButton.date = date;
         if ([dateButton.date isEqualToDate:self.selectedDate]) {
             textColor = self.selectedDateTextColor;

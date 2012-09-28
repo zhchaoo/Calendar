@@ -20,8 +20,17 @@
 		1D2391395A8710F3E85A8A /* left_arrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1D2391395A8710F3E85A89 /* left_arrow@2x.png */; };
 		1D2391395A8710F3E85A8C /* right_arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 1D2391395A8710F3E85A8B /* right_arrow.png */; };
 		1D2391395A8710F3E85A8E /* right_arrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1D2391395A8710F3E85A8D /* right_arrow@2x.png */; };
+		9501AA03161559C7006A8170 /* DateInfoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9501AA02161559C7006A8170 /* DateInfoView.m */; };
+		955CCA9616142FF4008BFA7A /* almanac.db in Resources */ = {isa = PBXBuildFile; fileRef = 955CCA9516142FF4008BFA7A /* almanac.db */; };
 		9590A5D51611DB6400472CB6 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9590A5D71611DB6400472CB6 /* Localizable.strings */; };
 		95979E831610847100C256BF /* LunarCalendar.m in Sources */ = {isa = PBXBuildFile; fileRef = 95979E821610847100C256BF /* LunarCalendar.m */; };
+		95986F4A1613F35300D48251 /* AlmanacCalendar.m in Sources */ = {isa = PBXBuildFile; fileRef = 95986F491613F35200D48251 /* AlmanacCalendar.m */; };
+		95986F851614053A00D48251 /* FMDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 95986F7B1614053A00D48251 /* FMDatabase.m */; };
+		95986F861614053A00D48251 /* FMDatabaseAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 95986F7D1614053A00D48251 /* FMDatabaseAdditions.m */; };
+		95986F871614053A00D48251 /* FMDatabasePool.m in Sources */ = {isa = PBXBuildFile; fileRef = 95986F7F1614053A00D48251 /* FMDatabasePool.m */; };
+		95986F881614053A00D48251 /* FMDatabaseQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 95986F811614053A00D48251 /* FMDatabaseQueue.m */; };
+		95986F8A1614053A00D48251 /* FMResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 95986F841614053A00D48251 /* FMResultSet.m */; };
+		95986F8C161405C300D48251 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 95986F8B161405C300D48251 /* libsqlite3.dylib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,12 +53,30 @@
 		1D2391395A8710F3E85A89 /* left_arrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "left_arrow@2x.png"; path = "../../Source/resources/left_arrow@2x.png"; sourceTree = "<group>"; };
 		1D2391395A8710F3E85A8B /* right_arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = right_arrow.png; path = ../../Source/resources/right_arrow.png; sourceTree = "<group>"; };
 		1D2391395A8710F3E85A8D /* right_arrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "right_arrow@2x.png"; path = "../../Source/resources/right_arrow@2x.png"; sourceTree = "<group>"; };
+		9501AA01161559C7006A8170 /* DateInfoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DateInfoView.h; path = ../../Source/DateInfoView.h; sourceTree = "<group>"; };
+		9501AA02161559C7006A8170 /* DateInfoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DateInfoView.m; path = ../../Source/DateInfoView.m; sourceTree = "<group>"; };
+		955CCA9516142FF4008BFA7A /* almanac.db */ = {isa = PBXFileReference; lastKnownFileType = file; name = almanac.db; path = ../../Source/resources/almanac.db; sourceTree = "<group>"; };
 		9590A5D61611DB6400472CB6 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		9590A5DA1611DBCB00472CB6 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		95979E811610847100C256BF /* LunarCalendar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LunarCalendar.h; path = ../../Source/LunarCalendar.h; sourceTree = "<group>"; };
 		95979E821610847100C256BF /* LunarCalendar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LunarCalendar.m; path = ../../Source/LunarCalendar.m; sourceTree = "<group>"; };
+		95986F461613F1E800D48251 /* AlmanacDateSource.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AlmanacDateSource.h; sourceTree = "<group>"; };
+		95986F481613F35200D48251 /* AlmanacCalendar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlmanacCalendar.h; sourceTree = "<group>"; };
+		95986F491613F35200D48251 /* AlmanacCalendar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlmanacCalendar.m; sourceTree = "<group>"; };
+		95986F7A1614053A00D48251 /* FMDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabase.h; sourceTree = "<group>"; };
+		95986F7B1614053A00D48251 /* FMDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabase.m; sourceTree = "<group>"; };
+		95986F7C1614053A00D48251 /* FMDatabaseAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabaseAdditions.h; sourceTree = "<group>"; };
+		95986F7D1614053A00D48251 /* FMDatabaseAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabaseAdditions.m; sourceTree = "<group>"; };
+		95986F7E1614053A00D48251 /* FMDatabasePool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabasePool.h; sourceTree = "<group>"; };
+		95986F7F1614053A00D48251 /* FMDatabasePool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabasePool.m; sourceTree = "<group>"; };
+		95986F801614053A00D48251 /* FMDatabaseQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabaseQueue.h; sourceTree = "<group>"; };
+		95986F811614053A00D48251 /* FMDatabaseQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabaseQueue.m; sourceTree = "<group>"; };
+		95986F831614053A00D48251 /* FMResultSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMResultSet.h; sourceTree = "<group>"; };
+		95986F841614053A00D48251 /* FMResultSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMResultSet.m; sourceTree = "<group>"; };
+		95986F8B161405C300D48251 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		959B703D16129FAA001619AF /* CKViewDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CKViewDelegate.h; sourceTree = "<group>"; };
 		959B70601612AC7C001619AF /* LunarDataSource.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LunarDataSource.h; sourceTree = "<group>"; };
+		95F2737516159D2B0078ECBB /* LayoutStyle.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = LayoutStyle.h; path = ../../Source/LayoutStyle.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,6 +84,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				95986F8C161405C300D48251 /* libsqlite3.dylib in Frameworks */,
 				1D2391395A8710F3E85A55 /* UIKit.framework in Frameworks */,
 				1D2391395A8710F3E85A57 /* Foundation.framework in Frameworks */,
 				1D2391395A8710F3E85A74 /* QuartzCore.framework in Frameworks */,
@@ -87,6 +115,7 @@
 		1D2391395A8710F3E85A53 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				95986F8B161405C300D48251 /* libsqlite3.dylib */,
 				1D2391395A8710F3E85A75 /* CoreGraphics.framework */,
 				1D2391395A8710F3E85A73 /* QuartzCore.framework */,
 				1D2391395A8710F3E85A56 /* Foundation.framework */,
@@ -98,16 +127,23 @@
 		1D2391395A8710F3E85A5A /* Calendar */ = {
 			isa = PBXGroup;
 			children = (
+				95986F791614053A00D48251 /* fmdb */,
+				95986F461613F1E800D48251 /* AlmanacDateSource.h */,
 				959B70601612AC7C001619AF /* LunarDataSource.h */,
 				959B703D16129FAA001619AF /* CKViewDelegate.h */,
+				95F2737516159D2B0078ECBB /* LayoutStyle.h */,
 				95979E811610847100C256BF /* LunarCalendar.h */,
 				95979E821610847100C256BF /* LunarCalendar.m */,
+				9501AA01161559C7006A8170 /* DateInfoView.h */,
+				9501AA02161559C7006A8170 /* DateInfoView.m */,
 				1D2391395A8710F3E85A84 /* CKCalendarView.m */,
 				1D2391395A8710F3E85A83 /* CKCalendarView.h */,
 				1D2391395A8710F3E85A67 /* CKViewController.m */,
 				1D2391395A8710F3E85A66 /* CKViewController.h */,
 				1D2391395A8710F3E85A64 /* CKAppDelegate.m */,
 				1D2391395A8710F3E85A63 /* CKAppDelegate.h */,
+				95986F481613F35200D48251 /* AlmanacCalendar.h */,
+				95986F491613F35200D48251 /* AlmanacCalendar.m */,
 				1D2391395A8710F3E85A5B /* Supporting Files */,
 				1D2391395A8710F3E85A86 /* resources */,
 			);
@@ -128,6 +164,7 @@
 		1D2391395A8710F3E85A86 /* resources */ = {
 			isa = PBXGroup;
 			children = (
+				955CCA9516142FF4008BFA7A /* almanac.db */,
 				1D2391395A8710F3E85A8D /* right_arrow@2x.png */,
 				1D2391395A8710F3E85A8B /* right_arrow.png */,
 				1D2391395A8710F3E85A89 /* left_arrow@2x.png */,
@@ -135,6 +172,24 @@
 				9590A5D71611DB6400472CB6 /* Localizable.strings */,
 			);
 			name = resources;
+			sourceTree = "<group>";
+		};
+		95986F791614053A00D48251 /* fmdb */ = {
+			isa = PBXGroup;
+			children = (
+				95986F7A1614053A00D48251 /* FMDatabase.h */,
+				95986F7B1614053A00D48251 /* FMDatabase.m */,
+				95986F7C1614053A00D48251 /* FMDatabaseAdditions.h */,
+				95986F7D1614053A00D48251 /* FMDatabaseAdditions.m */,
+				95986F7E1614053A00D48251 /* FMDatabasePool.h */,
+				95986F7F1614053A00D48251 /* FMDatabasePool.m */,
+				95986F801614053A00D48251 /* FMDatabaseQueue.h */,
+				95986F811614053A00D48251 /* FMDatabaseQueue.m */,
+				95986F831614053A00D48251 /* FMResultSet.h */,
+				95986F841614053A00D48251 /* FMResultSet.m */,
+			);
+			name = fmdb;
+			path = ../../Source/fmdb;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -191,6 +246,7 @@
 				1D2391395A8710F3E85A8C /* right_arrow.png in Resources */,
 				1D2391395A8710F3E85A8E /* right_arrow@2x.png in Resources */,
 				9590A5D51611DB6400472CB6 /* Localizable.strings in Resources */,
+				955CCA9616142FF4008BFA7A /* almanac.db in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -206,6 +262,13 @@
 				1D2391395A8710F3E85A68 /* CKViewController.m in Sources */,
 				1D2391395A8710F3E85A85 /* CKCalendarView.m in Sources */,
 				95979E831610847100C256BF /* LunarCalendar.m in Sources */,
+				95986F4A1613F35300D48251 /* AlmanacCalendar.m in Sources */,
+				95986F851614053A00D48251 /* FMDatabase.m in Sources */,
+				95986F861614053A00D48251 /* FMDatabaseAdditions.m in Sources */,
+				95986F871614053A00D48251 /* FMDatabasePool.m in Sources */,
+				95986F881614053A00D48251 /* FMDatabaseQueue.m in Sources */,
+				95986F8A1614053A00D48251 /* FMResultSet.m in Sources */,
+				9501AA03161559C7006A8170 /* DateInfoView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

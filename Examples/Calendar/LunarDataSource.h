@@ -19,7 +19,7 @@ enum {
 
 @property unsigned dayType;
 
--(void)initWithDate:(NSDate*)date;
+-(void)loadDate:(NSDate*)date;
 -(NSString *)MonthLunar;
 -(NSString *)DayLunar;
 -(NSString *)ZodiacLunar;
