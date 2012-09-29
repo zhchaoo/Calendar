@@ -87,6 +87,22 @@
 
 @synthesize dateButtons;
 
+-(id) copyWithZone: (NSZone*) zone
+{
+    ContainerView* copy = [[ContainerView allocWithZone:zone] init];
+    copy.dateButtons = 	[self.dateButtons copyWithZone:zone];
+    
+    return copy;
+}
+
+-(id) mutableCopyWithZone: (NSZone*) zone
+{
+    ContainerView* copy = [[ContainerView allocWithZone:zone] init];
+    copy.dateButtons = 	[self.dateButtons copyWithZone:zone];
+    
+    return copy;
+}
+
 @end
 
 @interface CKCalendarView ()
@@ -96,6 +112,7 @@
 @property(nonatomic, strong) UIButton *prevButton;
 @property(nonatomic, strong) UIButton *nextButton;
 @property(nonatomic, strong) ContainerView *calendarContainer;
+@property(nonatomic, strong) ContainerView *calendarContainerB;
 @property(nonatomic, strong) GradientView *daysHeader;
 @property(nonatomic, strong) NSArray *dayOfWeekLabels;
 
@@ -115,6 +132,7 @@
 @synthesize prevButton = _prevButton;
 @synthesize nextButton = _nextButton;
 @synthesize calendarContainer = _calendarContainer;
+@synthesize calendarContainerB = _calendarContainerB;
 @synthesize daysHeader = _daysHeader;
 @synthesize dayOfWeekLabels = _dayOfWeekLabels;
 
@@ -249,6 +267,17 @@
         // initialize the thing
         self.monthShowing = [NSDate date];
         [self setDefaultStyle];
+        
+        // copy a calendar
+        self.calendarContainerB = [self.calendarContainer copy];
+        self.calendarContainerB.backgroundColor = [UIColor whiteColor];
+
+        
+        
+//        NSData *tempArchiveView = [NSKeyedArchiver archivedDataWithRootObject:self.calendarContainer];
+//        self.calendarContainerB = [NSKeyedUnarchiver unarchiveObjectWithData:tempArchiveView];
+        
+        [self addSubview:self.calendarContainerB];
     }
 
     [self layoutSubviews]; // TODO: this is a hack to get the first month to show properly
@@ -372,9 +401,22 @@
 }
 
 - (void)moveCalendarToNextMonth {
+    CALayer* oldLayer = self.calendarContainer.layer;
+    
+    ContainerView* cont = self.calendarContainer;
+    self.calendarContainer = self.calendarContainerB;
+    self.calendarContainerB = cont;
+    
     NSDateComponents* comps = [[NSDateComponents alloc]init];
     [comps setMonth:1];
     self.monthShowing = [self.calendar dateByAddingComponents:comps toDate:self.monthShowing options:0];
+    
+    CABasicAnimation* mover = [CABasicAnimation animationWithKeyPath:@"position"];
+    mover.duration = 2;
+    mover.byValue = [NSValue valueWithCGPoint:CGPointMake(320, 0)];
+    
+    [oldLayer addAnimation:mover forKey:@"move"];
+                     
 }
 
 - (void)moveCalendarToPreviousMonth {
