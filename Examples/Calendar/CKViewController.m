@@ -1,6 +1,7 @@
 #import "CKViewController.h"
 #import "CKCalendarView.h"
 #import "DateInfoView.h"
+#import "LayoutStyle.h"
 
 @interface CKViewController ()
 
@@ -30,7 +31,7 @@
         [self.view addSubview:calendar];
         
         // init dateinfo view;
-        dateinfo = [[DateInfoView alloc] initWithFrame:CGRectMake(0, 300, 320, 120)];
+        dateinfo = [[DateInfoView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxX(calendar.frame) + VIEW_GALLAP , 320, 120)];
         
         [self.view addSubview:dateinfo];
         
@@ -74,6 +75,10 @@
     NSLog(@"LunarDate is %@ %@ %@ %@\n", NSLocalizedString([lunarModel YearHeavenlyStem], nil), NSLocalizedString([lunarModel MonthLunar], nil), NSLocalizedString([lunarModel DayLunar], nil), NSLocalizedString([lunarModel SolarTermTitle], nil));
     
     NSLog(@"CalmanacDate is %@ %@\n", [almanacModel compatibility], [almanacModel incompatibility]);
+    
+    // set date info
+    dateinfo.yilabel.text = [almanacModel compatibility];
+    dateinfo.jilabel.text = [almanacModel incompatibility];
 }
 
 @end

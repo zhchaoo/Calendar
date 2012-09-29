@@ -10,4 +10,7 @@
 
 @interface DateInfoView : UIView
 
+@property(nonatomic, retain) UILabel* yilabel;
+@property(nonatomic, retain) UILabel* jilabel;
+
 @end

@@ -19,7 +19,17 @@
 #define COL_YI @"Yi"
 #define COL_JI @"Ji"
 
+@interface AlmanacCalendar ()
+
+@property(nonatomic, strong) NSString* compatibility;
+@property(nonatomic, strong) NSString* incompatibility;
+
+@end
+
 @implementation AlmanacCalendar
+
+@synthesize compatibility;
+@synthesize incompatibility;
 
 -(id) init
 {
@@ -95,25 +105,14 @@
 //    NSMutableArray *result = [[NSMutableArray alloc] initWithCapacity:0];
         
     FMResultSet *rs = [mdb executeQuery:[NSString stringWithFormat:@"SELECT * FROM %@ where %@ = '%d' AND %@ = '%d' AND %@ = '%d'", TABLE_NAME, COL_YEAR, year, COL_MONTH, month, COL_DAY, day]];
-//    FMResultSet *rs = [mdb executeQuery:[NSString stringWithFormat:@"SELECT * FROM %@", TABLE_NAME]];
-    NSLog(@"Sql query %@\n", rs.query);
     while ([rs next]) {
-        NSLog(@"Y %@ J %@ \n", [rs stringForColumn:COL_YI], [rs stringForColumn:COL_JI]);
+        self.compatibility = [rs stringForColumn:COL_YI];
+        self.incompatibility = [rs stringForColumn:COL_JI];
     }
     
     [rs close];
 }
 
--(NSString*) compatibility
-{
-    return nil;
-}
-
--(NSString*) incompatibility
-{
-    return nil;
-}
-                       
 -(NSString *)SQL:(NSString *)sql inTable:(NSString *)table {
    return [NSString stringWithFormat:sql, table];
 } 

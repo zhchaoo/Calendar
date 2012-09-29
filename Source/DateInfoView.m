@@ -15,8 +15,6 @@
 
 @property(nonatomic, retain) UIView* highlight;
 @property(nonatomic, retain) UIView* dateContainer;
-@property(nonatomic, retain) UILabel* yilabel;
-@property(nonatomic, retain) UILabel* jilabel;
 
 @end
 
@@ -53,11 +51,44 @@
         dateContainer.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleWidth;
         dateContainer.layer.cornerRadius = 4.0f;
         dateContainer.clipsToBounds = YES;
+        CGFloat containerWidth = self.bounds.size.width - (CALENDAR_MARGIN * 2);
+        CGFloat containerHeight = self.bounds.size.height - (CALENDAR_MARGIN * 2);
+        dateContainer.frame = CGRectMake(CALENDAR_MARGIN, CALENDAR_MARGIN, containerWidth, containerHeight);
         [self addSubview:dateContainer];
         self.dateContainer = dateContainer;
         
+        // set label
+        self.yilabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, containerWidth / 2, containerHeight)];
+        self.jilabel = [[UILabel alloc] initWithFrame:CGRectMake(containerWidth/2, 0, containerWidth / 2, containerHeight)];
+        [dateContainer addSubview:self.yilabel];
+        [dateContainer addSubview:self.jilabel];
+        
+        self.yilabel.backgroundColor = [UIColor clearColor];
+        self.yilabel.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+        self.yilabel.font = [UIFont systemFontOfSize:[UIFont systemFontSize]];
+        self.jilabel.backgroundColor = [UIColor clearColor];
+        self.jilabel.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+        self.jilabel.font = [UIFont systemFontOfSize:[UIFont smallSystemFontSize]];
+        self.yilabel.numberOfLines = 0;
+        self.jilabel.numberOfLines = 0;
+        
+        [self setDefaultStyle];
+        
     }
     return self;
+}
+
+
+- (void)setDefaultStyle {
+    self.backgroundColor = UIColorFromRGB(0x393B40);
+    self.dateContainer.backgroundColor = UIColorFromRGB(0xDAE1E6);
+    
+    self.yilabel.textColor = [UIColor redColor];
+    self.jilabel.textColor = [UIColor greenColor];
+    
+    self.yilabel.textAlignment = UITextAlignmentLeft;
+    self.jilabel.textAlignment = UITextAlignmentRight;
+    
 }
 
 /*
