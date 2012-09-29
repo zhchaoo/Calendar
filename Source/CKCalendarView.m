@@ -77,6 +77,17 @@
 
 @end
 
+@interface ContainerView : UIView
+
+@property(nonatomic, strong) NSMutableArray *dateButtons;
+
+@end
+
+@implementation ContainerView
+
+@synthesize dateButtons;
+
+@end
 
 @interface CKCalendarView ()
 
@@ -84,10 +95,9 @@
 @property(nonatomic, strong) UILabel *titleLabel;
 @property(nonatomic, strong) UIButton *prevButton;
 @property(nonatomic, strong) UIButton *nextButton;
-@property(nonatomic, strong) UIView *calendarContainer;
+@property(nonatomic, strong) ContainerView *calendarContainer;
 @property(nonatomic, strong) GradientView *daysHeader;
 @property(nonatomic, strong) NSArray *dayOfWeekLabels;
-@property(nonatomic, strong) NSMutableArray *dateButtons;
 
 @property (nonatomic) startDay calendarStartDay;
 @property (nonatomic, strong) NSDate *monthShowing;
@@ -96,6 +106,7 @@
 
 
 @end
+
 
 @implementation CKCalendarView
 
@@ -106,7 +117,6 @@
 @synthesize calendarContainer = _calendarContainer;
 @synthesize daysHeader = _daysHeader;
 @synthesize dayOfWeekLabels = _dayOfWeekLabels;
-@synthesize dateButtons = _dateButtons;
 
 @synthesize monthShowing = _monthShowing;
 @synthesize calendar = _calendar;
@@ -181,7 +191,7 @@
         self.nextButton = nextButton;
 
         // THE CALENDAR ITSELF
-        UIView *calendarContainer = [[UIView alloc] initWithFrame:CGRectZero];
+        ContainerView *calendarContainer = [[ContainerView alloc] initWithFrame:CGRectZero];
         calendarContainer.layer.borderWidth = 1.0f;
         calendarContainer.layer.borderColor = [UIColor blackColor].CGColor;
         calendarContainer.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleWidth;
@@ -233,7 +243,7 @@
             // add dateButton to Array
             [dateButtons addObject:dateButton];
         }
-        self.dateButtons = dateButtons;
+        self.calendarContainer.dateButtons = dateButtons;
         
 
         // initialize the thing
@@ -273,14 +283,14 @@
         lastDayFrame = dayLabel.frame;
     }
 
-    for (DateButton *dateButton in self.dateButtons) {
+    for (DateButton *dateButton in self.calendarContainer.dateButtons) {
         [dateButton removeFromSuperview];
     }
 
     NSDate *date = [self firstDayOfMonthContainingDate:self.monthShowing];
     uint dateButtonPosition = 0;
     while ([self dateIsInMonthShowing:date]) {
-        DateButton *dateButton = [self.dateButtons objectAtIndex:dateButtonPosition];
+        DateButton *dateButton = [self.calendarContainer.dateButtons objectAtIndex:dateButtonPosition];
 
         // set Button for date;
         UIColor* textColor = [UIColor blackColor];
@@ -426,39 +436,39 @@
 }
 
 - (void)setDateFont:(UIFont *)font {
-    for (DateButton *dateButton in self.dateButtons) {
+    for (DateButton *dateButton in self.calendarContainer.dateButtons) {
         dateButton.titleLabel.font = font;
     }
 }
 - (UIFont *)dateFont {
-    return (self.dateButtons.count > 0) ? ((DateButton *)[self.dateButtons lastObject]).titleLabel.font : nil;
+    return (self.calendarContainer.dateButtons.count > 0) ? ((DateButton *)[self.calendarContainer.dateButtons lastObject]).titleLabel.font : nil;
 }
 
 - (void)setDateTextColor:(UIColor *)color {
-    for (DateButton *dateButton in self.dateButtons) {
+    for (DateButton *dateButton in self.calendarContainer.dateButtons) {
         [dateButton setTitleColor:color forState:UIControlStateNormal];
     }
 }
 - (UIColor *)dateTextColor {
-    if (self.dateButtons.count > 0) {
+    if (self.calendarContainer.dateButtons.count > 0) {
         if (self.dataSource.dayType & SOLARTERM)
             return [UIColor greenColor];
         else if (self.dataSource.dayType & WEEKEND) 
             return [UIColor redColor];
         else
-            return [((DateButton *)[self.dateButtons lastObject]) titleColorForState:UIControlStateNormal];
+            return [((DateButton *)[self.calendarContainer.dateButtons lastObject]) titleColorForState:UIControlStateNormal];
     } else {
         return nil;
     }
 }
 
 - (void)setDateBackgroundColor:(UIColor *)color {
-    for (DateButton *dateButton in self.dateButtons) {
+    for (DateButton *dateButton in self.calendarContainer.dateButtons) {
         dateButton.backgroundColor = color;
     }
 }
 - (UIColor *)dateBackgroundColor {
-    return (self.dateButtons.count > 0) ? ((DateButton *)[self.dateButtons lastObject]).backgroundColor : nil;
+    return (self.calendarContainer.dateButtons.count > 0) ? ((DateButton *)[self.calendarContainer.dateButtons lastObject]).backgroundColor : nil;
 }
 
 - (void)setDateBorderColor:(UIColor *)color {
