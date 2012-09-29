@@ -68,7 +68,7 @@
         self.yilabel.font = [UIFont systemFontOfSize:[UIFont systemFontSize]];
         self.jilabel.backgroundColor = [UIColor clearColor];
         self.jilabel.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-        self.jilabel.font = [UIFont systemFontOfSize:[UIFont smallSystemFontSize]];
+        self.jilabel.font = [UIFont systemFontOfSize:[UIFont systemFontSize]];
         self.yilabel.numberOfLines = 0;
         self.jilabel.numberOfLines = 0;
         
