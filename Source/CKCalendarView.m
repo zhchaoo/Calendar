@@ -80,17 +80,20 @@
 @interface ContainerView : UIView
 
 @property(nonatomic, strong) NSMutableArray *dateButtons;
+@property(nonatomic, strong) NSArray *dayOfWeekLabels;
 
 @end
 
 @implementation ContainerView
 
-@synthesize dateButtons;
+@synthesize dateButtons = _dateButtons;
+@synthesize dayOfWeekLabels = _dayOfWeekLabels;
 
 -(id) copyWithZone: (NSZone*) zone
 {
     ContainerView* copy = [[ContainerView allocWithZone:zone] init];
     copy.dateButtons = 	[self.dateButtons copyWithZone:zone];
+    copy.dayOfWeekLabels = [self.dayOfWeekLabels copyWithZone:zone];
     
     return copy;
 }
@@ -99,6 +102,7 @@
 {
     ContainerView* copy = [[ContainerView allocWithZone:zone] init];
     copy.dateButtons = 	[self.dateButtons copyWithZone:zone];
+    copy.dayOfWeekLabels = [self.dayOfWeekLabels copyWithZone:zone];
     
     return copy;
 }
@@ -114,7 +118,6 @@
 @property(nonatomic, strong) ContainerView *calendarContainer;
 @property(nonatomic, strong) ContainerView *calendarContainerB;
 @property(nonatomic, strong) GradientView *daysHeader;
-@property(nonatomic, strong) NSArray *dayOfWeekLabels;
 
 @property (nonatomic) startDay calendarStartDay;
 @property (nonatomic, strong) NSDate *monthShowing;
@@ -134,7 +137,6 @@
 @synthesize calendarContainer = _calendarContainer;
 @synthesize calendarContainerB = _calendarContainerB;
 @synthesize daysHeader = _daysHeader;
-@synthesize dayOfWeekLabels = _dayOfWeekLabels;
 
 @synthesize monthShowing = _monthShowing;
 @synthesize calendar = _calendar;
@@ -223,6 +225,7 @@
         [self.calendarContainer addSubview:daysHeader];
         self.daysHeader = daysHeader;
 
+        // init week labels
         NSMutableArray *labels = [NSMutableArray array];
         for (NSString *day in [self getDaysOfTheWeek]) {
             UILabel *dayOfWeekLabel = [[UILabel alloc] initWithFrame:CGRectZero];
@@ -234,13 +237,11 @@
             [labels addObject:dayOfWeekLabel];
             [self.calendarContainer addSubview:dayOfWeekLabel];
         }
-        self.dayOfWeekLabels = labels;
+        self.calendarContainer.dayOfWeekLabels = labels;
 
+        // init datebuttons
         // at most we'll need 42 buttons, so let's just bite the bullet and make them now...
         NSMutableArray *dateButtons = [NSMutableArray array];
-        
-#pragma unused(dateButtons)
-        
         dateButtons = [NSMutableArray array];
         for (int i = 0; i < 43; i++) {
             DateButton *dateButton = [DateButton buttonWithType:UIButtonTypeCustom];
@@ -271,13 +272,15 @@
         // copy a calendar
         self.calendarContainerB = [self.calendarContainer copy];
         self.calendarContainerB.backgroundColor = [UIColor whiteColor];
-
-        
-        
-//        NSData *tempArchiveView = [NSKeyedArchiver archivedDataWithRootObject:self.calendarContainer];
-//        self.calendarContainerB = [NSKeyedUnarchiver unarchiveObjectWithData:tempArchiveView];
-        
         [self addSubview:self.calendarContainerB];
+        self.calendarContainerB.frame = CGRectMake(-ANIMATION_DELTA, 0, 0, 0);
+        
+#if DEBUG
+        self.calendarContainer.layer.borderColor = [UIColor redColor].CGColor;
+        self.calendarContainer.layer.borderWidth = 2;
+        self.calendarContainerB.layer.borderColor = [UIColor blueColor].CGColor;
+        self.calendarContainerB.layer.borderWidth = 2;
+#endif
     }
 
     [self layoutSubviews]; // TODO: this is a hack to get the first month to show properly
@@ -307,9 +310,10 @@
     self.daysHeader.frame = CGRectMake(0, 0, self.calendarContainer.frame.size.width, DAYS_HEADER_HEIGHT);
 
     CGRect lastDayFrame = CGRectZero;
-    for (UILabel *dayLabel in self.dayOfWeekLabels) {
+    for (UILabel *dayLabel in self.calendarContainer.dayOfWeekLabels) {
         dayLabel.frame = CGRectMake(CGRectGetMaxX(lastDayFrame) + CELL_BORDER_WIDTH, lastDayFrame.origin.y, self.cellWidth, self.daysHeader.frame.size.height);
         lastDayFrame = dayLabel.frame;
+        [self.calendarContainer addSubview:dayLabel];
     }
 
     for (DateButton *dateButton in self.calendarContainer.dateButtons) {
@@ -401,8 +405,6 @@
 }
 
 - (void)moveCalendarToNextMonth {
-    CALayer* oldLayer = self.calendarContainer.layer;
-    
     ContainerView* cont = self.calendarContainer;
     self.calendarContainer = self.calendarContainerB;
     self.calendarContainerB = cont;
@@ -410,13 +412,22 @@
     NSDateComponents* comps = [[NSDateComponents alloc]init];
     [comps setMonth:1];
     self.monthShowing = [self.calendar dateByAddingComponents:comps toDate:self.monthShowing options:0];
+   
+    CGPoint p = self.calendarContainer.layer.position;
+    p.x -= ANIMATION_DELTA;
     
     CABasicAnimation* mover = [CABasicAnimation animationWithKeyPath:@"position"];
+    mover.fromValue = [NSValue valueWithCGPoint:p];
     mover.duration = 2;
-    mover.byValue = [NSValue valueWithCGPoint:CGPointMake(320, 0)];
+    mover.byValue = [NSValue valueWithCGPoint:CGPointMake(ANIMATION_DELTA, 0)];
     
-    [oldLayer addAnimation:mover forKey:@"move"];
-                     
+    CABasicAnimation* moverB = [CABasicAnimation animationWithKeyPath:@"position"];
+    moverB.duration = 2;
+    moverB.byValue = [NSValue valueWithCGPoint:CGPointMake(ANIMATION_DELTA, 0)];
+    
+    [self.calendarContainer.layer addAnimation:mover forKey:@"move"];
+    [self.calendarContainerB.layer addAnimation:moverB forKey:@"move"];
+    
 }
 
 - (void)moveCalendarToPreviousMonth {
@@ -456,21 +467,21 @@
 }
 
 - (void)setDayOfWeekFont:(UIFont *)font {
-    for (UILabel *label in self.dayOfWeekLabels) {
+    for (UILabel *label in self.calendarContainer.dayOfWeekLabels) {
         label.font = font;
     }
 }
 - (UIFont *)dayOfWeekFont {
-    return (self.dayOfWeekLabels.count > 0) ? ((UILabel *)[self.dayOfWeekLabels lastObject]).font : nil;
+    return (self.calendarContainer.dayOfWeekLabels.count > 0) ? ((UILabel *)[self.calendarContainer.dayOfWeekLabels lastObject]).font : nil;
 }
 
 - (void)setDayOfWeekTextColor:(UIColor *)color {
-    for (UILabel *label in self.dayOfWeekLabels) {
+    for (UILabel *label in self.calendarContainer.dayOfWeekLabels) {
         label.textColor = color;
     }
 }
 - (UIColor *)dayOfWeekTextColor {
-    return (self.dayOfWeekLabels.count > 0) ? ((UILabel *)[self.dayOfWeekLabels lastObject]).textColor : nil;
+    return (self.calendarContainer.dayOfWeekLabels.count > 0) ? ((UILabel *)[self.calendarContainer.dayOfWeekLabels lastObject]).textColor : nil;
 }
 
 - (void)setDayOfWeekBottomColor:(UIColor *)bottomColor topColor:(UIColor *)topColor {

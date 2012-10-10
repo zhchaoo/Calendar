@@ -26,8 +26,8 @@ enum {
 typedef int startDay;
 
 @property (nonatomic, strong) NSDate *selectedDate;
-@property (nonatomic, retain) id<CKViewDelegate> delegate;
-@property (nonatomic, retain) id<LunarDataSource> dataSource;
+@property (nonatomic, assign) id<CKViewDelegate> delegate;
+@property (nonatomic, assign) id<LunarDataSource> dataSource;
 
 - (id)initWithStartDay:(startDay)firstDay;
 - (id)initWithStartDay:(startDay)firstDay frame:(CGRect)frame;
