@@ -92,8 +92,10 @@
 -(id) copyWithZone: (NSZone*) zone
 {
     ContainerView* copy = [[ContainerView allocWithZone:zone] init];
-    copy.dateButtons = 	[self.dateButtons copyWithZone:zone];
-    copy.dayOfWeekLabels = [self.dayOfWeekLabels copyWithZone:zone];
+    
+    // need a true deep copy, such as when you have an array of arrays, you can archive and then unarchive the collection, provided the contents all conform to the NSCoding protocol. An example of this technique is shown in Listing 3.
+    copy.dayOfWeekLabels = [NSKeyedUnarchiver unarchiveObjectWithData:[NSKeyedArchiver archivedDataWithRootObject:self.dayOfWeekLabels]]; 
+    copy.dateButtons = [NSKeyedUnarchiver unarchiveObjectWithData:[NSKeyedArchiver archivedDataWithRootObject:self.dateButtons]]; 
     
     return copy;
 }
