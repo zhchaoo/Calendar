@@ -115,12 +115,12 @@
     ContainerView* copy = [[ContainerView allocWithZone:zone] init];
     
     // need a true deep copy, such as when you have an array of arrays, you can archive and then unarchive the collection, provided the contents all conform to the NSCoding protocol. An example of this technique is shown in Listing 3.
-    copy.dayOfWeekLabels = [NSKeyedUnarchiver unarchiveObjectWithData:[NSKeyedArchiver archivedDataWithRootObject:self.dayOfWeekLabels]]; 
-    copy.dateButtons = [NSKeyedUnarchiver unarchiveObjectWithData:[NSKeyedArchiver archivedDataWithRootObject:self.dateButtons]]; 
+//    copy.dayOfWeekLabels = [NSKeyedUnarchiver unarchiveObjectWithData:[NSKeyedArchiver archivedDataWithRootObject:self.dayOfWeekLabels]]; 
+//    copy.dateButtons = [NSKeyedUnarchiver unarchiveObjectWithData:[NSKeyedArchiver archivedDataWithRootObject:self.dateButtons]];
     
-    for (DateButton* dbtn in copy.dateButtons) {
-        [dbtn addSubview:dbtn.label];
-    }
+//    for (DateButton* dbtn in copy.dateButtons) {
+//        [dbtn addSubview:dbtn.label];
+//    }
     
     return copy;
 }
@@ -130,12 +130,12 @@
     ContainerView* copy = [[ContainerView allocWithZone:zone] init];
     
     // need a true deep copy, such as when you have an array of arrays, you can archive and then unarchive the collection, provided the contents all conform to the NSCoding protocol. An example of this technique is shown in Listing 3.
-    copy.dayOfWeekLabels = [NSKeyedUnarchiver unarchiveObjectWithData:[NSKeyedArchiver archivedDataWithRootObject:self.dayOfWeekLabels]]; 
-    copy.dateButtons = [NSKeyedUnarchiver unarchiveObjectWithData:[NSKeyedArchiver archivedDataWithRootObject:self.dateButtons]]; 
-    
-    for (DateButton* dbtn in copy.dateButtons) {
-        [dbtn addSubview:dbtn.label];
-    }
+//    copy.dayOfWeekLabels = [NSKeyedUnarchiver unarchiveObjectWithData:[NSKeyedArchiver archivedDataWithRootObject:self.dayOfWeekLabels]]; 
+//    copy.dateButtons = [NSKeyedUnarchiver unarchiveObjectWithData:[NSKeyedArchiver archivedDataWithRootObject:self.dateButtons]]; 
+//    
+//    for (DateButton* dbtn in copy.dateButtons) {
+//        [dbtn addSubview:dbtn.label];
+//    }
     
     return copy;
 }
@@ -275,10 +275,18 @@
         // init datebuttons
         // at most we'll need 42 buttons, so let's just bite the bullet and make them now...
         NSMutableArray *dateButtons = [NSMutableArray array];
-        dateButtons = [NSMutableArray array];
-        for (int i = 0; i < 43; i++) {
+        NSMutableArray *dateButtonsB = [NSMutableArray array];
+        for (int i = 0; i < 43 * 2; i++) {
             DateButton *dateButton = [DateButton buttonWithType:UIButtonTypeCustom];
-            [dateButton setTitle:[NSString stringWithFormat:@"%d", i] forState:UIControlStateNormal];
+#if DEBUG
+            if (i < 43) {
+                dateButton.layer.borderColor = [UIColor greenColor].CGColor;
+                dateButton.layer.borderWidth = 2.0f;
+            } else {
+                dateButton.layer.borderColor = [UIColor orangeColor].CGColor;
+                dateButton.layer.borderWidth = 2.0f;
+            }
+#endif
             [dateButton addTarget:self action:@selector(dateButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
             dateButton.titleLabel.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
             dateButton.titleLabel.textAlignment = UITextAlignmentCenter;
@@ -293,13 +301,15 @@
             dateButton.label = dateLabel;
             
             // add dateButton to Array
-            [dateButtons addObject:dateButton];
+            if (i < 43)
+                [dateButtons addObject:dateButton];
+            else
+                [dateButtonsB addObject:dateButton];
         }
         self.calendarContainer.dateButtons = dateButtons;
         
 
         // initialize the thing
-        self.monthShowing = [NSDate date];
         [self setDefaultStyle];
         
         // copy a calendar
@@ -314,14 +324,19 @@
         [self addSubview:self.calendarContainerB];
         self.calendarContainerB.frame = CGRectMake(-MOVE_CALENDAR_DELTA, 0, 0, 0);
         
+        self.calendarContainerB.dateButtons = dateButtonsB;
+        
 #if DEBUG
         self.calendarContainer.layer.borderColor = [UIColor redColor].CGColor;
         self.calendarContainer.layer.borderWidth = 2;
         self.calendarContainerB.layer.borderColor = [UIColor blueColor].CGColor;
         self.calendarContainerB.layer.borderWidth = 2;
+        
+//        [self.calendarContainerB.layer setOpacity:0.0];
 #endif
     }
 
+    self.monthShowing = [NSDate date];
     [self layoutSubviews]; // TODO: this is a hack to get the first month to show properly
     return self;
 }
@@ -358,7 +373,7 @@
     for (DateButton *dateButton in self.calendarContainer.dateButtons) {
         [dateButton removeFromSuperview];
     }
-
+    
     NSDate *date = [self firstDayOfMonthContainingDate:self.monthShowing];
     uint dateButtonPosition = 0;
     while ([self dateIsInMonthShowing:date]) {
@@ -458,14 +473,14 @@
     CABasicAnimation* mover = [CABasicAnimation animationWithKeyPath:@"position"];
     mover.fromValue = [NSValue valueWithCGPoint:p];
     mover.duration = MOVE_CALENDAR_TIME;
-    mover.byValue = [NSValue valueWithCGPoint:CGPointMake(MOVE_CALENDAR_DELTA, 0)];
+    mover.byValue = [NSValue valueWithCGPoint:CGPointMake(-MOVE_CALENDAR_DELTA, 0)];
     //以下為關鍵設定，設定屬性 fillMode 以及 removedOnCompletion，讓動畫物件停留在最後位置
     mover.fillMode = kCAFillModeForwards;
     mover.removedOnCompletion = NO;
     
     CABasicAnimation* moverB = [CABasicAnimation animationWithKeyPath:@"position"];
     moverB.duration = MOVE_CALENDAR_TIME;
-    moverB.byValue = [NSValue valueWithCGPoint:CGPointMake(MOVE_CALENDAR_DELTA, 0)];
+    moverB.byValue = [NSValue valueWithCGPoint:CGPointMake(-MOVE_CALENDAR_DELTA, 0)];
     //以下為關鍵設定，設定屬性 fillMode 以及 removedOnCompletion，讓動畫物件停留在最後位置
     moverB.fillMode = kCAFillModeForwards;
     moverB.removedOnCompletion = NO;
@@ -476,7 +491,33 @@
 }
 
 - (void)moveCalendarToPreviousMonth {
+    ContainerView* cont = self.calendarContainer;
+    self.calendarContainer = self.calendarContainerB;
+    self.calendarContainerB = cont;
+    
     self.monthShowing = [[self firstDayOfMonthContainingDate:self.monthShowing] dateByAddingTimeInterval:-100000];
+    
+    CGPoint p = self.calendarContainer.layer.position;
+    p.x -= MOVE_CALENDAR_DELTA;
+    
+    CABasicAnimation* mover = [CABasicAnimation animationWithKeyPath:@"position"];
+    mover.fromValue = [NSValue valueWithCGPoint:p];
+    mover.duration = MOVE_CALENDAR_TIME;
+    mover.byValue = [NSValue valueWithCGPoint:CGPointMake(+MOVE_CALENDAR_DELTA, 0)];
+    //以下為關鍵設定，設定屬性 fillMode 以及 removedOnCompletion，讓動畫物件停留在最後位置
+    mover.fillMode = kCAFillModeForwards;
+    mover.removedOnCompletion = NO;
+    
+    CABasicAnimation* moverB = [CABasicAnimation animationWithKeyPath:@"position"];
+    moverB.duration = MOVE_CALENDAR_TIME;
+    moverB.byValue = [NSValue valueWithCGPoint:CGPointMake(+MOVE_CALENDAR_DELTA, 0)];
+    //以下為關鍵設定，設定屬性 fillMode 以及 removedOnCompletion，讓動畫物件停留在最後位置
+    moverB.fillMode = kCAFillModeForwards;
+    moverB.removedOnCompletion = NO;
+    
+    [self.calendarContainer.layer addAnimation:mover forKey:@"move"];
+    [self.calendarContainerB.layer addAnimation:moverB forKey:@"move"];
+    
 }
 
 - (void)dateButtonPressed:(id)sender {
@@ -554,7 +595,7 @@
         else if (self.dataSource.dayType & WEEKEND) 
             return [UIColor redColor];
         else
-            return [((DateButton *)[self.calendarContainer.dateButtons lastObject]) titleColorForState:UIControlStateNormal];
+            return [UIColor blackColor];//[((DateButton *)[self.calendarContainer.dateButtons lastObject]) titleColorForState:UIControlStateNormal];
     } else {
         return nil;
     }
