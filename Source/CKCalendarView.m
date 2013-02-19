@@ -68,11 +68,32 @@
 @synthesize date = _date;
 @synthesize label = _label;
 
-- (void)setDate:(NSDate *)aDate {
+- (void)setDate:(NSDate *)aDate 
+{
     _date = aDate;
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     dateFormatter.dateFormat = @"d";
     [self setTitle:[dateFormatter stringFromDate:_date] forState:UIControlStateNormal];
+}
+
+- (id)copyWithZone:(NSZone*)zone
+{
+    DateButton* copy = [[DateButton allocWithZone:zone] init];
+    
+    copy.date = [self.date copy];
+    copy.label = [self.label copy];
+    
+    return copy;
+}
+
+- (id)mutableCopyWithZone:(NSZone*)zone
+{
+    DateButton* copy = [[DateButton allocWithZone:zone] init];
+    
+    copy.date = [self.date copy];
+    copy.label = [self.label copy];
+    
+    return copy;
 }
 
 @end
@@ -89,7 +110,7 @@
 @synthesize dateButtons = _dateButtons;
 @synthesize dayOfWeekLabels = _dayOfWeekLabels;
 
--(id) copyWithZone: (NSZone*) zone
+- (id)copyWithZone:(NSZone*)zone
 {
     ContainerView* copy = [[ContainerView allocWithZone:zone] init];
     
@@ -97,14 +118,24 @@
     copy.dayOfWeekLabels = [NSKeyedUnarchiver unarchiveObjectWithData:[NSKeyedArchiver archivedDataWithRootObject:self.dayOfWeekLabels]]; 
     copy.dateButtons = [NSKeyedUnarchiver unarchiveObjectWithData:[NSKeyedArchiver archivedDataWithRootObject:self.dateButtons]]; 
     
+    for (DateButton* dbtn in copy.dateButtons) {
+        [dbtn addSubview:dbtn.label];
+    }
+    
     return copy;
 }
 
--(id) mutableCopyWithZone: (NSZone*) zone
+- (id)mutableCopyWithZone:(NSZone*)zone
 {
     ContainerView* copy = [[ContainerView allocWithZone:zone] init];
-    copy.dateButtons = 	[self.dateButtons copyWithZone:zone];
-    copy.dayOfWeekLabels = [self.dayOfWeekLabels copyWithZone:zone];
+    
+    // need a true deep copy, such as when you have an array of arrays, you can archive and then unarchive the collection, provided the contents all conform to the NSCoding protocol. An example of this technique is shown in Listing 3.
+    copy.dayOfWeekLabels = [NSKeyedUnarchiver unarchiveObjectWithData:[NSKeyedArchiver archivedDataWithRootObject:self.dayOfWeekLabels]]; 
+    copy.dateButtons = [NSKeyedUnarchiver unarchiveObjectWithData:[NSKeyedArchiver archivedDataWithRootObject:self.dateButtons]]; 
+    
+    for (DateButton* dbtn in copy.dateButtons) {
+        [dbtn addSubview:dbtn.label];
+    }
     
     return copy;
 }
@@ -117,8 +148,8 @@
 @property(nonatomic, strong) UILabel *titleLabel;
 @property(nonatomic, strong) UIButton *prevButton;
 @property(nonatomic, strong) UIButton *nextButton;
-@property(nonatomic, strong) ContainerView *calendarContainer;
-@property(nonatomic, strong) ContainerView *calendarContainerB;
+@property(nonatomic, assign) ContainerView *calendarContainer;
+@property(nonatomic, assign) ContainerView *calendarContainerB;
 @property(nonatomic, strong) GradientView *daysHeader;
 
 @property (nonatomic) startDay calendarStartDay;
@@ -216,7 +247,7 @@
         ContainerView *calendarContainer = [[ContainerView alloc] initWithFrame:CGRectZero];
         calendarContainer.layer.borderWidth = 1.0f;
         calendarContainer.layer.borderColor = [UIColor blackColor].CGColor;
-        calendarContainer.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleWidth;
+        calendarContainer.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleWidth;
         calendarContainer.layer.cornerRadius = 4.0f;
         calendarContainer.clipsToBounds = YES;
         [self addSubview:calendarContainer];
@@ -272,10 +303,16 @@
         [self setDefaultStyle];
         
         // copy a calendar
-        self.calendarContainerB = [self.calendarContainer copy];
+        self.calendarContainerB = [NSKeyedUnarchiver unarchiveObjectWithData:[NSKeyedArchiver archivedDataWithRootObject:self.calendarContainer]];
+        self.calendarContainerB.layer.borderWidth = 1.0f;
+        self.calendarContainerB.layer.borderColor = [UIColor blackColor].CGColor;
+        self.calendarContainerB.layer.cornerRadius = 4.0f;
+
+        //FIXME: copy layer & style
+//        self.calendarContainerB = [self.calendarContainer copy];
         self.calendarContainerB.backgroundColor = [UIColor whiteColor];
         [self addSubview:self.calendarContainerB];
-        self.calendarContainerB.frame = CGRectMake(-ANIMATION_DELTA, 0, 0, 0);
+        self.calendarContainerB.frame = CGRectMake(-MOVE_CALENDAR_DELTA, 0, 0, 0);
         
 #if DEBUG
         self.calendarContainer.layer.borderColor = [UIColor redColor].CGColor;
@@ -374,7 +411,7 @@
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     dateFormatter.dateFormat = @"MM月 YYYY年";
     self.titleLabel.text = [dateFormatter stringFromDate:aMonthShowing];
-    [self setNeedsLayout];
+    [self layoutSubviews];
 }
 
 - (void)setDefaultStyle {
@@ -416,16 +453,22 @@
     self.monthShowing = [self.calendar dateByAddingComponents:comps toDate:self.monthShowing options:0];
    
     CGPoint p = self.calendarContainer.layer.position;
-    p.x -= ANIMATION_DELTA;
+    p.x += MOVE_CALENDAR_DELTA;
     
     CABasicAnimation* mover = [CABasicAnimation animationWithKeyPath:@"position"];
     mover.fromValue = [NSValue valueWithCGPoint:p];
-    mover.duration = 2;
-    mover.byValue = [NSValue valueWithCGPoint:CGPointMake(ANIMATION_DELTA, 0)];
+    mover.duration = MOVE_CALENDAR_TIME;
+    mover.byValue = [NSValue valueWithCGPoint:CGPointMake(MOVE_CALENDAR_DELTA, 0)];
+    //以下為關鍵設定，設定屬性 fillMode 以及 removedOnCompletion，讓動畫物件停留在最後位置
+    mover.fillMode = kCAFillModeForwards;
+    mover.removedOnCompletion = NO;
     
     CABasicAnimation* moverB = [CABasicAnimation animationWithKeyPath:@"position"];
-    moverB.duration = 2;
-    moverB.byValue = [NSValue valueWithCGPoint:CGPointMake(ANIMATION_DELTA, 0)];
+    moverB.duration = MOVE_CALENDAR_TIME;
+    moverB.byValue = [NSValue valueWithCGPoint:CGPointMake(MOVE_CALENDAR_DELTA, 0)];
+    //以下為關鍵設定，設定屬性 fillMode 以及 removedOnCompletion，讓動畫物件停留在最後位置
+    moverB.fillMode = kCAFillModeForwards;
+    moverB.removedOnCompletion = NO;
     
     [self.calendarContainer.layer addAnimation:mover forKey:@"move"];
     [self.calendarContainerB.layer addAnimation:moverB forKey:@"move"];

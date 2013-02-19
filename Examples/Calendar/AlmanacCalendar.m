@@ -77,6 +77,8 @@
 	return success;
 }
 
+#pragma mark - AlmanacDateSource methods
+
 -(void) loadDate:(NSDate *)date
 {
     if (date == nil) {

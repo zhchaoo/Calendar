@@ -469,7 +469,7 @@ int LunarCalendarInfo[] = { 0x04bd8,0x04ae0,0x0a570,0x054d5,0x0d260,0x0d950,0x16
     return isLeap;
 }
 
-#pragma mark LunarDataSource Methods
+#pragma mark - LunarDataSource Methods
 -(void)loadDate:(NSDate *)date
 {
     [self loadWithDate:date];

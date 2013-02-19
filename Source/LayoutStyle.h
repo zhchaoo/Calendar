@@ -10,6 +10,8 @@
 #define Calendar_LayoutStyle_h
 
 
+#pragma mark - layout
+
 #define BUTTON_MARGIN 4
 #define CALENDAR_MARGIN 2
 #define TOP_HEIGHT 44
@@ -18,7 +20,13 @@
 #define CELL_BORDER_WIDTH 1
 #define CELL_OVERLAP 6
 #define VIEW_GALLAP 0
-#define ANIMATION_DELTA 320
+
+#pragma mark - animation
+
+#define MOVE_CALENDAR_DELTA 320
+#define MOVE_CALENDAR_TIME 1
+
+#pragma mark - utiliy function
 
 #define UIColorFromRGB(rgbValue) [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
 
